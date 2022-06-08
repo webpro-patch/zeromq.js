@@ -23,13 +23,13 @@
       'target_name': 'zmq',
       'dependencies': ['libzmq'],
       'sources': ['binding.cc'],
-      'include_dirs' : ["<!(node -e \"require('nan')\")"],
+      'include_dirs' : ["<!(node -e \"require('nan')\")", "${libzmq_dir}"],
       'cflags!': ['-fno-exceptions'],
       'cflags_cc!': ['-fno-exceptions'],
       'conditions': [
         ["zmq_external == 'true'", {
           'link_settings': {
-            'libraries': ['-lzmq'],
+            'libraries': ['${libzmq_lib}'],
           },
         }, {
           'conditions': [
@@ -47,14 +47,14 @@
                 'GCC_ENABLE_CPP_EXCEPTIONS': 'YES',
                 'MACOSX_DEPLOYMENT_TARGET': '10.15',
               },
-              'libraries': ['<(PRODUCT_DIR)/../../zmq/lib/libzmq.a'],
-              'include_dirs': ['<(PRODUCT_DIR)/../../zmq/include'],
+              'libraries': ['${libzmq_lib}'],
+              'include_dirs': ['${libzmq_dir}'],
             }],
             ['OS=="openbsd" or OS=="freebsd"', {
             }],
             ['OS=="linux"', {
-              'libraries': ['<(PRODUCT_DIR)/../../zmq/lib/libzmq.a'],
-              'include_dirs': ['<(PRODUCT_DIR)/../../zmq/include'],
+              'libraries': ['${libzmq_lib}'],
+              'include_dirs': ['${libzmq_dir}'],
             }],
           ],
         }],
